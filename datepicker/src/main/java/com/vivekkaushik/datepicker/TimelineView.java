@@ -19,26 +19,26 @@ public class TimelineView extends RecyclerView {
     private static final String TAG = "TimelineView";
     private TimelineAdapter adapter;
 
-    private int monthTextColor, dateTextColor, dayTextColor, selectedColor, disabledColor;
-//    private float monthTextSize, dateTextSize, dayTextSize;
+    private int monthTextColor, dateTextColor, dayTextColor, selectedColor, disabledColor, selectedTextColor, selectedBackground;
+    //    private float monthTextSize, dateTextSize, dayTextSize;
     private int year, month, date;
 
     public TimelineView(@NonNull Context context) {
         super(context);
-        init();
+        init(null);
     }
 
     public TimelineView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(attrs);
     }
 
     public TimelineView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(attrs);
     }
 
-    void init() {
+    void init(AttributeSet attrs) {
         year = 1970;
         month = 0;
         date = 1;
@@ -47,6 +47,21 @@ public class TimelineView extends RecyclerView {
                 false));
         adapter = new TimelineAdapter(this, -1);
         setAdapter(adapter);
+
+        if (attrs != null) {
+            final Resources res = getResources();
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(
+                    attrs,
+                    R.styleable.DatePickerTimeline,
+                    0, 0);
+
+            try {
+                selectedBackground = a.getResourceId(R.styleable.DatePickerTimeline_selectedBackground,
+                        R.drawable.consultlater_docsched_bg_date);
+            } finally {
+                a.recycle();
+            }
+        }
     }
 
     public int getMonthTextColor() {
@@ -87,6 +102,22 @@ public class TimelineView extends RecyclerView {
 
     public void setSelectedColor(int color) {
         this.selectedColor = color;
+    }
+
+    public int getSelectedBackground() {
+        return selectedBackground;
+    }
+
+    public void setSelectedBackground(int selectedBackground) {
+        this.selectedBackground = selectedBackground;
+    }
+
+    public int getSelectedTextColor() {
+        return selectedTextColor;
+    }
+
+    public void setSelectedTextColor(int color) {
+        this.selectedTextColor = color;
     }
 
     public int getYear() {
