@@ -73,11 +73,13 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.ViewHo
           selectedView = v;
 
           if (listener != null) listener.onDateSelected(year, month, day, dayOfWeek);
-
-          notifyDataSetChanged();
         } else {
+          holder.dateView.setTextColor(timelineView.getDisabledDateColor());
+          holder.dayView.setTextColor(timelineView.getDisabledDateColor());
+          holder.monthView.setTextColor(timelineView.getDisabledDateColor());
           if (listener != null) listener.onDisabledDateSelected(year, month, day, dayOfWeek, isDisabled);
         }
+        notifyDataSetChanged();
       }
     });
   }
